@@ -8,6 +8,7 @@ import com.udpt.employeeService.Repository.EmployeeRepository;
 import com.udpt.employeeService.hashPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     private String email;
 
@@ -86,6 +90,11 @@ public class EmployeeService {
 
         employeeRepository.save(employee);
 
+        Optional<Employee> optionalEmployee = employeeRepository.findByUserName(employeeRequest.getUserName());
+        if (!optionalEmployee.isPresent()) {
+            throw new NotFoundException("Employee have user name " + employeeRequest.getUserName() + "was not created");
+        }
+        String syncResult = restTemplate.postForObject("http://localhost:8002/employee/add",optionalEmployee.get().getEmployeeId(),String.class);
         return "Employee has name "+employee.getUserName()+" was created";
 
     }
@@ -115,7 +124,6 @@ public class EmployeeService {
         employeeRepository.save(employee);
 
         return "Employee has name "+employee.getUserName()+" was edited";
-
     }
 
     public String deleteEmployee() {
@@ -125,6 +133,7 @@ public class EmployeeService {
         }
 
         employeeRepository.delete(optionalEmployee.get());
+        String syncResult = restTemplate.postForObject("http://localhost:8002/employee/deleteEmployee",optionalEmployee.get().getEmployeeId(),String.class);
         return "Employee has name "+userName+" was deleted";
     }
 }
