@@ -2,6 +2,7 @@ package com.udpt.employeeService.Controller;
 
 import com.udpt.employeeService.Entity.Employee;
 import com.udpt.employeeService.Entity.Request.EmployeeRequest;
+import com.udpt.employeeService.Entity.Request.LoginRequest;
 import com.udpt.employeeService.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,5 +52,11 @@ public class EmployeeController {
     public String deleteEmployee(@RequestBody String userName) {
         employeeService.setUserName(userName);
         return employeeService.deleteEmployee();
+    }
+
+    @PostMapping("/login")
+    public Employee login(@RequestBody LoginRequest loginRequest) {
+        employeeService.setLoginRequest(loginRequest);
+        return employeeService.login();
     }
 }

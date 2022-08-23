@@ -2,11 +2,13 @@ package com.udpt.employeeService.Service;
 
 import com.udpt.employeeService.Entity.Employee;
 import com.udpt.employeeService.Entity.Request.EmployeeRequest;
+import com.udpt.employeeService.Entity.Request.LoginRequest;
 import com.udpt.employeeService.HandleException.DuplicateException;
 import com.udpt.employeeService.HandleException.NotFoundException;
 import com.udpt.employeeService.Repository.EmployeeRepository;
 import com.udpt.employeeService.hashPassword;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,11 +23,15 @@ public class EmployeeService {
     @Autowired
     private RestTemplate restTemplate;
 
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     private String email;
 
     private String userName;
 
     private EmployeeRequest employeeRequest;
+
+    public LoginRequest loginRequest;
 
     public void setEmail(String email) {
         this.email = email;
@@ -41,6 +47,10 @@ public class EmployeeService {
 
     public List<Employee> getListEmployee() {
         return employeeRepository.findAll();
+    }
+
+    public void setLoginRequest(LoginRequest loginRequest) {
+        this.loginRequest = loginRequest;
     }
 
     public Employee getEmployeeByEmail() {
@@ -135,5 +145,18 @@ public class EmployeeService {
         employeeRepository.delete(optionalEmployee.get());
         String syncResult = restTemplate.postForObject("http://localhost:8002/employee/deleteEmployee",optionalEmployee.get().getEmployeeId(),String.class);
         return "Employee has name "+userName+" was deleted";
+    }
+
+    public Employee login() {
+        Optional<Employee> optionalEmployee = employeeRepository.findByUserName(loginRequest.getUserName());
+        if (!optionalEmployee.isPresent()) {
+            throw new NotFoundException("Not found employee has userName "+ loginRequest.getUserName());
+        }
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), optionalEmployee.get().getPassword())) {
+            return null;
+        }
+
+        return optionalEmployee.get();
     }
 }
