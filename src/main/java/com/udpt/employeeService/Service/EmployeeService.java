@@ -89,7 +89,6 @@ public class EmployeeService {
         employee.setPosition(employeeRequest.getPosition());
         employee.setLeavingDayBalance(employeeRequest.getLeavingDayBalance());
         employee.setAddress(employeeRequest.getAddress());
-        employee.setPosition(employeeRequest.getPhone());
         employee.setEmail(employeeRequest.getEmail());
         employee.setDateOfBirth(employeeRequest.getDateOfBirth());
         employee.setSex(employeeRequest.isSex());
@@ -122,7 +121,6 @@ public class EmployeeService {
         employee.setPosition(employeeRequest.getPosition());
         employee.setLeavingDayBalance(employeeRequest.getLeavingDayBalance());
         employee.setAddress(employeeRequest.getAddress());
-        employee.setPosition(employeeRequest.getPhone());
         employee.setEmail(employeeRequest.getEmail());
         employee.setDateOfBirth(employeeRequest.getDateOfBirth());
         employee.setSex(employeeRequest.isSex());
