@@ -157,4 +157,8 @@ public class EmployeeService {
 
         return optionalEmployee.get();
     }
+
+    public List<Employee> findAllManager() {
+        return employeeRepository.findAllByPosition("manager");
+    }
 }

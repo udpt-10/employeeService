@@ -59,4 +59,9 @@ public class EmployeeController {
         employeeService.setLoginRequest(loginRequest);
         return employeeService.login();
     }
+
+    @GetMapping("/manager")
+    public List<Employee> getAllManager() {
+        return employeeService.findAllManager();
+    }
 }
