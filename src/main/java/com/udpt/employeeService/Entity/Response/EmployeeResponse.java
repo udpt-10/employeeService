@@ -3,7 +3,7 @@ package com.udpt.employeeService.Entity.Response;
 import java.util.Date;
 
 public class EmployeeResponse {
-
+    private int employeeId;
     private String employeeName;
     private String userName;
     private String position;
@@ -142,5 +142,13 @@ public class EmployeeResponse {
 
     public void setManagerName(String managerName) {
         this.managerName = managerName;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 }
