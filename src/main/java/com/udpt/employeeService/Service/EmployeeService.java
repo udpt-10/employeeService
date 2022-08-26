@@ -3,15 +3,18 @@ package com.udpt.employeeService.Service;
 import com.udpt.employeeService.Entity.Employee;
 import com.udpt.employeeService.Entity.Request.EmployeeRequest;
 import com.udpt.employeeService.Entity.Request.LoginRequest;
+import com.udpt.employeeService.Entity.Response.EmployeeResponse;
 import com.udpt.employeeService.HandleException.DuplicateException;
 import com.udpt.employeeService.HandleException.NotFoundException;
 import com.udpt.employeeService.Repository.EmployeeRepository;
 import com.udpt.employeeService.hashPassword;
+import com.udpt.employeeService.DTO.employeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,30 +48,52 @@ public class EmployeeService {
         this.employeeRequest = employeeRequest;
     }
 
-    public List<Employee> getListEmployee() {
-        return employeeRepository.findAll();
-    }
-
     public void setLoginRequest(LoginRequest loginRequest) {
         this.loginRequest = loginRequest;
     }
 
-    public Employee getEmployeeByEmail() {
+    public List<EmployeeResponse> getListEmployee() {
+        List<Employee> employeeList = employeeRepository.findAll();
+        List<EmployeeResponse> employeeResponseList = new ArrayList<EmployeeResponse>();
+        for (Employee employee : employeeList) {
+            Optional<Employee> optionalManager = employeeRepository.findById(employee.getManager());
+            Optional<Employee> optionalDirector = employeeRepository.findById(employee.getDirector());
+
+            EmployeeResponse employeeResponse = new EmployeeResponse();
+            employeeResponse = employeeDTO.response(employee,optionalManager.get(),optionalDirector.get());
+            employeeResponseList.add(employeeResponse);
+        }
+        return employeeResponseList;
+    }
+
+    public EmployeeResponse getEmployeeByEmail() {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmail(email);
         if (!optionalEmployee.isPresent()) {
             throw new NotFoundException("Not found employee has email "+ email);
         }
 
-        return optionalEmployee.get();
+        Employee employee = optionalEmployee.get();
+        Optional<Employee> optionalManager = employeeRepository.findById(employee.getManager());
+        Optional<Employee> optionalDirector = employeeRepository.findById(employee.getDirector());
+
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        employeeResponse = employeeDTO.response(employee,optionalManager.get(),optionalDirector.get());
+        return employeeResponse;
     }
 
-    public Employee getEmployeeByUserName() {
+    public EmployeeResponse getEmployeeByUserName() {
         Optional <Employee> optionalEmployee = employeeRepository.findByUserName(userName);
         if (!optionalEmployee.isPresent()) {
             throw new NotFoundException("Not found employee has userName "+ userName);
         }
 
-        return optionalEmployee.get();
+        Employee employee = optionalEmployee.get();
+        Optional<Employee> optionalManager = employeeRepository.findById(employee.getManager());
+        Optional<Employee> optionalDirector = employeeRepository.findById(employee.getDirector());
+
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        employeeResponse = employeeDTO.response(employee,optionalManager.get(),optionalDirector.get());
+        return employeeResponse;
     }
 
     public String insertNewEmployee() {
@@ -147,7 +172,7 @@ public class EmployeeService {
         return "Employee has name "+userName+" was deleted";
     }
 
-    public Employee login() {
+    public EmployeeResponse login() {
         Optional<Employee> optionalEmployee = employeeRepository.findByUserName(loginRequest.getUserName());
         if (!optionalEmployee.isPresent()) {
             throw new NotFoundException("Not found employee has userName "+ loginRequest.getUserName());
@@ -157,10 +182,26 @@ public class EmployeeService {
             return null;
         }
 
-        return optionalEmployee.get();
+        Employee employee = optionalEmployee.get();
+        Optional<Employee> optionalManager = employeeRepository.findById(employee.getManager());
+        Optional<Employee> optionalDirector = employeeRepository.findById(employee.getDirector());
+
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        employeeResponse = employeeDTO.response(employee,optionalManager.get(),optionalDirector.get());
+        return employeeResponse;
     }
 
-    public List<Employee> findAllManager() {
-        return employeeRepository.findAllByPosition("manager");
+    public List<EmployeeResponse> findAllManager() {
+        List<Employee> employeeList = employeeRepository.findAllByPosition("manager");
+        List<EmployeeResponse> employeeResponseList = new ArrayList<EmployeeResponse>();
+        for (Employee employee : employeeList) {
+            Optional<Employee> optionalManager = employeeRepository.findById(employee.getManager());
+            Optional<Employee> optionalDirector = employeeRepository.findById(employee.getDirector());
+
+            EmployeeResponse employeeResponse = new EmployeeResponse();
+            employeeResponse = employeeDTO.response(employee,optionalManager.get(),optionalDirector.get());
+            employeeResponseList.add(employeeResponse);
+        }
+        return employeeResponseList;
     }
 }
