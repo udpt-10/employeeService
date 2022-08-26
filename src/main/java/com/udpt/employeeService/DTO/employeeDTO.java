@@ -22,8 +22,10 @@ public class employeeDTO {
         employeeResponse.setDateOfBirth(employee.getDateOfBirth());
         employeeResponse.setSex(employee.isSex());
         employeeResponse.setInformationSummary(employee.getInformationSummary());
-        employeeResponse.setManager(manager.getEmployeeName());
-        employeeResponse.setDirector(director.getEmployeeName());
+        employeeResponse.setManager(employee.getManager());
+        employeeResponse.setDirector(employee.getDirector());
+        employeeResponse.setManagerName(manager.getEmployeeName());
+        employeeResponse.setDirectorName(director.getEmployeeName());
 
         return employeeResponse;
     }

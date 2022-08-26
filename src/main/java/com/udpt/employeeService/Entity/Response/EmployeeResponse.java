@@ -15,8 +15,10 @@ public class EmployeeResponse {
     private Date dateOfBirth;
     private boolean sex;
     private String informationSummary;
-    private String director;
-    private String manager;
+    private int director;
+    private int manager;
+    private String directorName;
+    private String managerName;
 
     public EmployeeResponse() {
 
@@ -110,19 +112,35 @@ public class EmployeeResponse {
         this.informationSummary = informationSummary;
     }
 
-    public String getDirector() {
+    public int getDirector() {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(int director) {
         this.director = director;
     }
 
-    public String getManager() {
+    public int getManager() {
         return manager;
     }
 
-    public void setManager(String manager) {
+    public void setManager(int manager) {
         this.manager = manager;
+    }
+
+    public String getDirectorName() {
+        return directorName;
+    }
+
+    public void setDirectorName(String directorName) {
+        this.directorName = directorName;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 }
