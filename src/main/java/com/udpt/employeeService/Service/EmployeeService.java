@@ -129,7 +129,7 @@ public class EmployeeService {
         if (!optionalEmployee.isPresent()) {
             throw new NotFoundException("Employee have user name " + employeeRequest.getUserName() + "was not created");
         }
-        Employee syncResult = restTemplate.postForObject("http://localhost:8002/employee/add",optionalEmployee.get(),Employee.class);
+        restTemplate.postForLocation("http://localhost:8002/employee/add",optionalEmployee.get());
         return "Employee has name "+employee.getUserName()+" was created";
 
     }
