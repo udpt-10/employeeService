@@ -24,6 +24,9 @@ public class Employee {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "salary")
+    private double salary;
+
     @Column(name = "leaving_day_balance")
     private int leavingDayBalance;
 
@@ -111,13 +114,13 @@ public class Employee {
         this.position = position;
     }
 
-    //    public Position getPosition() {
-//        return position;
-//    }
-//
-//    public void setPosition(Position position) {
-//        this.position = position;
-//    }
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
 
     public int getLeavingDayBalance() {
         return leavingDayBalance;

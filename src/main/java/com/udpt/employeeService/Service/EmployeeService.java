@@ -87,6 +87,7 @@ public class EmployeeService {
         employee.setUserName(employeeRequest.getUserName());
         employee.setPassword(hashPassword.hash(employeeRequest.getPassword()));
         employee.setPosition(employeeRequest.getPosition());
+        employee.setSalary(employeeRequest.getSalary());
         employee.setLeavingDayBalance(employeeRequest.getLeavingDayBalance());
         employee.setAddress(employeeRequest.getAddress());
         employee.setEmail(employeeRequest.getEmail());
@@ -119,6 +120,7 @@ public class EmployeeService {
         employee.setUserName(employeeRequest.getUserName());
         employee.setPassword(hashPassword.hash(employeeRequest.getPassword()));
         employee.setPosition(employeeRequest.getPosition());
+        employee.setSalary(employeeRequest.getSalary());
         employee.setLeavingDayBalance(employeeRequest.getLeavingDayBalance());
         employee.setAddress(employeeRequest.getAddress());
         employee.setEmail(employeeRequest.getEmail());

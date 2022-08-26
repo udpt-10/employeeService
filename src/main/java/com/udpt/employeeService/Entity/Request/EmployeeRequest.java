@@ -11,6 +11,7 @@ public class EmployeeRequest {
     private String userName;
     private String password;
     private String position;
+    private double salary;
     private int leavingDayBalance;
     private String address;
     private String phone;
@@ -35,6 +36,10 @@ public class EmployeeRequest {
 
     public String getPosition() {
         return position;
+    }
+
+    public double getSalary() {
+        return salary;
     }
 
     public int getLeavingDayBalance() {
